@@ -16,15 +16,24 @@ class ViewController: UIViewController {
     let safeArea = UIView()
     let disposeBag = DisposeBag()
     let viewModel: RootViewModel
-    
+
+    let iconImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "globe.americas")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    let lblTimezone = UILabel()
+    let lblTemp = UILabel()
+    let lblLastestUpdateTime = UILabel()
+
     //MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
         setUpNavigationBar()
-        refreshData()
     }
-    
+
     init(viewModel: RootViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -33,15 +42,49 @@ class ViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Configures
     func setUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(safeArea)
         title = viewModel.title
 
+        [iconImage, lblTimezone, lblTemp, lblLastestUpdateTime].forEach {
+            view.addSubview($0)
+        }
+
         safeArea.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        iconImage.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(25)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(25)
+            make.width.height.equalTo(50)
+        }
+
+        lblTimezone.text = "Timezone"
+        lblTimezone.textColor = .black
+        lblTimezone.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        lblTimezone.snp.makeConstraints { make in
+            make.top.equalTo(iconImage.snp.top).inset(50)
+            make.leading.equalTo(iconImage.snp.leading)
+        }
+
+        lblTemp.text = "Temp"
+        lblTemp.textColor = .black
+        lblTemp.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        lblTemp.snp.makeConstraints { make in
+            make.top.equalTo(lblTimezone.snp.top).inset(25)
+            make.leading.equalTo(lblTimezone.snp.leading)
+        }
+
+        lblLastestUpdateTime.text = "최근 업데이트 시각: 13:29:33"
+        lblLastestUpdateTime.textColor = .darkGray
+        lblLastestUpdateTime.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        lblLastestUpdateTime.snp.makeConstraints { make in
+            make.top.equalTo(lblTemp.snp.top).inset(25)
+            make.leading.equalTo(lblTemp.snp.leading)
         }
     }
 
@@ -50,26 +93,91 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
 
         let rightButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(tapAddWidgetPage))
-        self.navigationItem.rightBarButtonItem = rightButton
+
+        let leftButton = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(loadData))
 
         navigationItem.rightBarButtonItem = rightButton
+        navigationItem.leftBarButtonItem = leftButton
     }
-    
+
     //MARK: - Helpers
     @objc func tapAddWidgetPage() {
         print(#function)
         let registerWidgetViewController = RegisterWidgetViewController()
         self.navigationController?.pushViewController(registerWidgetViewController, animated: true)
     }
-    
-    func refreshData() {
+
+    /// 위젯에서 요청할 함수
+    /// 여기서 받아서 -> 위젯으로 전달
+    @objc func loadData() {
         viewModel.fetchWeather().subscribe(onNext: { fetchedWeatherData in
             var iconCode = fetchedWeatherData.current.weather[0].icon
-            
-            print("timezone: \(fetchedWeatherData.timezone)")
-            print("iconUrl: https://openweathermap.org/img/wn/\(iconCode)@2x.png")
-            print("temp: \(fetchedWeatherData.current.temp!)")
+            var iconUrl = URL(string: "https://openweathermap.org/img/wn/\(iconCode)@2x.png")!
+
+            var timeZone = fetchedWeatherData.timezone
+            var curentTemp = fetchedWeatherData.current.temp!
+
+            self.updateData(iconUrl, timeZone, curentTemp)
         })
     }
+
+    func updateData(_ iconUrl: URL, _ timeZone: String, _ lblTemp: Double) {
+        DispatchQueue.main.async {
+            self.iconImage.load(url: iconUrl)
+            self.lblTimezone.text = timeZone
+            self.lblTemp.text = String(round(lblTemp)) + "℃"
+            self.lblLastestUpdateTime.text = "최근 업데이트 시각: \(self.getNowTime())"
+        }
+    }
+
+    func getNowTime() -> String {
+        let now = Date()
+
+        let date = DateFormatter()
+        date.locale = Locale(identifier: "ko_kr")
+        date.timeZone = TimeZone(abbreviation: "KST") // "2018-03-21 18:07:27"
+        date.dateFormat = "HH:mm:ss"
+
+        return date.string(from: now)
+    }
 }
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
+
+#if DEBUG
+    import SwiftUI
+    struct ViewControllerRepresentable: UIViewControllerRepresentable {
+        func updateUIViewController(_: UIViewController, context _: Context) {
+            // leave this empty
+        }
+
+        @available(iOS 13.0.0, *)
+        func makeUIViewController(context _: Context) -> UIViewController {
+            ViewController(viewModel: RootViewModel(weatherService: WeatherService()))
+        }
+    }
+
+    @available(iOS 13.0, *)
+    struct ViewControllerRepresentable_PreviewProvider: PreviewProvider {
+        static var previews: some View {
+            Group {
+                ViewControllerRepresentable()
+                    .ignoresSafeArea()
+                    .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
+                    .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+            }
+        }
+    }#endif
 
