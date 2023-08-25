@@ -123,6 +123,7 @@ class ViewController: UIViewController {
 
     func updateData(_ iconUrl: URL, _ timeZone: String, _ lblTemp: Double) {
         DispatchQueue.main.async {
+            print(iconUrl)
             self.iconImage.load(url: iconUrl)
             self.lblTimezone.text = timeZone
             self.lblTemp.text = String(round(lblTemp)) + "℃"
