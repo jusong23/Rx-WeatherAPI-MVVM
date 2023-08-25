@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setUpNavigationBar()
+        refreshData()
     }
     
     init(viewModel: RootViewModel) {
@@ -48,16 +49,26 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = .gray
         view.backgroundColor = .white
 
-        let rightButton = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(getData))
+        let rightButton = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(tapAddWidgetPage))
         self.navigationItem.rightBarButtonItem = rightButton
 
         navigationItem.rightBarButtonItem = rightButton
     }
     
     //MARK: - Helpers
-    @objc func getData() {
+    @objc func tapAddWidgetPage() {
+        print(#function)
+        let registerWidgetViewController = RegisterWidgetViewController()
+        self.navigationController?.pushViewController(registerWidgetViewController, animated: true)
+    }
+    
+    func refreshData() {
         viewModel.fetchWeather().subscribe(onNext: { fetchedWeatherData in
-            print(fetchedWeatherData)
+            var iconCode = fetchedWeatherData.current.weather[0].icon
+            
+            print("timezone: \(fetchedWeatherData.timezone)")
+            print("iconUrl: https://openweathermap.org/img/wn/\(iconCode)@2x.png")
+            print("temp: \(fetchedWeatherData.current.temp!)")
         })
     }
 }

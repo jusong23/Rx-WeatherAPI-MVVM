@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_GangNamRoad_MVVMVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_GangNamRoad_MVVMVersionString[];
+FOUNDATION_EXPORT double Pods_Weather_MVVMVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_Weather_MVVMVersionString[];
 

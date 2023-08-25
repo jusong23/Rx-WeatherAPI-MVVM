@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class RootViewModel {
-    let title = "날씨API + MVVM"
+    let title = "Global Weather"
 
     private let weatherService: WeatherServiceProtocol
 
