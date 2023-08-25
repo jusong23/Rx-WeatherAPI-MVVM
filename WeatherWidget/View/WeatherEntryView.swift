@@ -12,10 +12,56 @@ struct WeatherEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
+        
+        HStack {
+            Text(entry.widgetData.lblLastestUpdateTime)
+                .font(.caption)
+            
+            Spacer()
+            
+            Image(systemName: "arrow.clockwise")
         }
+        
+        HStack {
+            VStack {
+                Image(uiImage: UIImage(named: "02d")!)
+                Spacer()
+                Text(entry.widgetData.lblTimezone)
+                    .font(.caption)
+                Text(entry.widgetData.lblTemp)
+                    .font(.caption2)
+            }
+            Spacer()
+            VStack {
+                Image(uiImage: UIImage(named: "02d")!)
+                Spacer()
+                Text(entry.widgetData.lblTimezone)
+                    .font(.caption)
+                Text(entry.widgetData.lblTemp)
+                    .font(.caption2)
+            }
+            Spacer()
+            VStack {
+                Image(uiImage: UIImage(named: "02d")!)
+                Spacer()
+                Text(entry.widgetData.lblTimezone)
+                    .font(.caption)
+                Text(entry.widgetData.lblTemp)
+                    .font(.caption2)
+            }
+            Spacer()
+            VStack {
+                Image(uiImage: UIImage(named: "02d")!)
+                Spacer()
+                Text(entry.widgetData.lblTimezone)
+                    .font(.caption)
+                Text(entry.widgetData.lblTemp)
+                    .font(.caption2)
+            }
+        }
+
+        
+        
     }
 }
 

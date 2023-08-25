@@ -16,5 +16,5 @@ struct WidgetData: Codable {
 }
 
 extension WidgetData {
-    static let preview = WidgetData(iconImage: "https://openweathermap.org/img/wn/02d@2x.png", lblTimezone: "Sample Timezone", lblTemp: "Sample Temp", lblLastestUpdateTime: "Sample Update Time", date: .now)
+    static let preview = WidgetData(iconImage: "https://openweathermap.org/img/wn/02d@2x.png", lblTimezone: "Timezone", lblTemp: "Temp", lblLastestUpdateTime: "Update Time", date: .now)
 }
