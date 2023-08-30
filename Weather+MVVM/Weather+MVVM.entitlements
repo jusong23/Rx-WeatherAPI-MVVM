@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.kr.co.truen.EGLOO.GangNamRoad-MVVM.contents</string>
+		<string>group.kr.co.truen.EGLOO.GangNamRoad-MVVM.content</string>
 	</array>
 </dict>
 </plist>

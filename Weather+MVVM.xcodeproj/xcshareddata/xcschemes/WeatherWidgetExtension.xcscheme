@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "185AAE022A986B1500B9B97B"
+               BlueprintIdentifier = "185AAE462A9882CB00B9B97B"
                BuildableName = "WeatherWidgetExtension.appex"
                BlueprintName = "WeatherWidgetExtension"
                ReferencedContainer = "container:Weather+MVVM.xcodeproj">

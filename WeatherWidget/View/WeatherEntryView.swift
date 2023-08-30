@@ -8,20 +8,21 @@
 import WidgetKit
 import SwiftUI
 
-struct WeatherEntryView : View {
+struct WeatherEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        
+
         HStack {
             Text(entry.widgetData.lblLastestUpdateTime)
                 .font(.caption)
-            
+
             Spacer()
-            
-            Image(systemName: "arrow.clockwise")
+            Button(intent: ToggleStateIntent(id: "test")) {
+                Image(systemName: "arrow.clockwise")
+            }
         }
-        
+
         HStack {
             VStack {
                 Image(uiImage: UIImage(named: "02d")!)
@@ -60,8 +61,8 @@ struct WeatherEntryView : View {
             }
         }
 
-        
-        
+
+
     }
 }
 

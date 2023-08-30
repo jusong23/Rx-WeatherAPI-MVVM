@@ -12,4 +12,8 @@ pod 'RxCocoa', '6.5.0'
 
 pod 'SnapKit', '~> 5.6.0'
 
+    target 'WeatherWidgetExtension' do
+        inherit! :search_paths
+    end
+
 end
