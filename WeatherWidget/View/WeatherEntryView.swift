@@ -13,56 +13,66 @@ struct WeatherEntryView: View {
 
     var body: some View {
 
-        HStack {
-            Text(entry.widgetData.lblLastestUpdateTime)
-                .font(.caption)
+        ZStack {
+            VStack {
+                HStack {
+                    Text("최근 업데이트: \(entry.widgetData.updateTime)")
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
 
-            Spacer()
-            Button(intent: ToggleStateIntent(id: "test")) {
-                Image(systemName: "arrow.clockwise")
+                    Spacer()
+                    Button(intent: ToggleStateIntent()) {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+                HStack {
+                    VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                        Spacer()
+                        Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
+                            .aspectRatio(contentMode: .fit)
+                        Spacer()
+                        Text(entry.widgetData.timezone)
+                            .font(.caption)
+                        Text(String(format: "%.1f", (entry.widgetData.temp)) + "℃")
+                            .font(.caption2)
+                    }
+                    Spacer()
+                    VStack(alignment: .center) {
+                        Spacer()
+                        Image(uiImage: (UIImage(systemName: "plus.circle")!))
+                            .aspectRatio(contentMode: .fit)
+                        Spacer()
+                        Text(entry.widgetData.timezone)
+                            .font(.caption)
+                        Text(String(format: "%.1f", (entry.widgetData.temp)) + "℃")
+                            .font(.caption2)
+                    }
+                    Spacer()
+                    VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                        Spacer()
+                        Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
+                            .aspectRatio(contentMode: .fit)
+                        Spacer()
+                        Text(entry.widgetData.timezone)
+                            .font(.caption)
+                        Text(String(format: "%.1f", (entry.widgetData.temp)) + "℃")
+                            .font(.caption2)
+                    }
+                    Spacer()
+                    VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                        Spacer()
+                        Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
+                            .aspectRatio(contentMode: .fit)
+                        Spacer()
+                        Text(entry.widgetData.timezone)
+                            .font(.caption)
+                        Text(String(format: "%.1f", (entry.widgetData.temp)) + "℃")
+                            .font(.caption2)
+                    }
+                }
+
             }
         }
-
-        HStack {
-            VStack {
-                Image(uiImage: UIImage(named: "02d")!)
-                Spacer()
-                Text(entry.widgetData.lblTimezone)
-                    .font(.caption)
-                Text(entry.widgetData.lblTemp)
-                    .font(.caption2)
-            }
-            Spacer()
-            VStack {
-                Image(uiImage: UIImage(named: "02d")!)
-                Spacer()
-                Text(entry.widgetData.lblTimezone)
-                    .font(.caption)
-                Text(entry.widgetData.lblTemp)
-                    .font(.caption2)
-            }
-            Spacer()
-            VStack {
-                Image(uiImage: UIImage(named: "02d")!)
-                Spacer()
-                Text(entry.widgetData.lblTimezone)
-                    .font(.caption)
-                Text(entry.widgetData.lblTemp)
-                    .font(.caption2)
-            }
-            Spacer()
-            VStack {
-                Image(uiImage: UIImage(named: "02d")!)
-                Spacer()
-                Text(entry.widgetData.lblTimezone)
-                    .font(.caption)
-                Text(entry.widgetData.lblTemp)
-                    .font(.caption2)
-            }
-        }
-
-
-
     }
 }
 

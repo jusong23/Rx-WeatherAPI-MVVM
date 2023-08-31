@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import WidgetKit
 
 public class SimpleError: Error {
     public init() { }
@@ -39,7 +40,7 @@ class WeatherService: WeatherServiceProtocol {
                 do {
                     let decoder = JSONDecoder()
                     let response = try decoder.decode(OpenWeather.self, from: data)
-                    
+                                        
                     emitter.onNext(response)
                     emitter.onCompleted()
                 } catch {

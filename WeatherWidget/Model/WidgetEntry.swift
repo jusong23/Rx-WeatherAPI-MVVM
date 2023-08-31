@@ -10,7 +10,7 @@ import WidgetKit
 
 struct WeatherEntry: TimelineEntry {
     let widgetData: WidgetData
-
+    
     var date: Date {
         widgetData.date
     }

@@ -16,12 +16,14 @@ struct WeatherWidget: Widget {
             if #available(iOS 17.0, *) {
                 WeatherEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
+
             } else {
                 WeatherEntryView(entry: entry)
                     .padding()
                     .background()
             }
         }
+        .supportedFamilies([.systemMedium])
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
     }

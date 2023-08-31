@@ -14,19 +14,22 @@ struct Provider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (WeatherEntry) -> ()) {
+        var data = WidgetData.preview
+        
+        if !context.isPreview {
+            let list = WidgetData.read()
+            if !list.isEmpty {
+                data = list[0]
+            }
+        } // 실제 데이터 리턴
+        
         let entry = WeatherEntry(widgetData: .preview)
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<WeatherEntry>) -> ()) {
-        var entries = [WeatherEntry(widgetData: .preview)]
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = WeatherEntry(widgetData: .preview)
-            entries.append(entry)
+        let entries = WidgetData.read().map {
+            WeatherEntry(widgetData: $0)
         }
 
         let timeline = Timeline(entries: entries, policy: .atEnd)

@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import WidgetKit
 
 class ViewController: UIViewController {
 
@@ -26,6 +27,7 @@ class ViewController: UIViewController {
     let lblTimezone = UILabel()
     let lblTemp = UILabel()
     let lblLastestUpdateTime = UILabel()
+
 
     //MARK: - Lifecycles
     override func viewDidLoad() {
@@ -114,51 +116,34 @@ class ViewController: UIViewController {
             var iconCode = fetchedWeatherData.current.weather[0].icon
             var iconUrl = URL(string: "https://openweathermap.org/img/wn/\(iconCode)@2x.png")!
 
-            var timeZone = fetchedWeatherData.timezone
-            var curentTemp = fetchedWeatherData.current.temp!
+            var timezone = fetchedWeatherData.timezone
+            var temp = fetchedWeatherData.current.temp!
+            var updateTime = getNowTime()
 
-            self.updateData(iconUrl, timeZone, curentTemp)
+            self.updateDataOnWidget(iconCode, timezone, temp, updateTime)
+            self.updateDataonApp(iconUrl, timezone, temp)
         })
     }
 
-    func updateData(_ iconUrl: URL, _ timeZone: String, _ lblTemp: Double) {
+    func updateDataOnWidget(_ iconCode: String, _ timezone: String, _ temp: Double, _ updateTime: String) {
+        WidgetData.write(iconCode, timezone, temp, updateTime)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    func updateDataonApp(_ iconUrl: URL, _ timeZone: String, _ temp: Double) {
         DispatchQueue.main.async {
             print(iconUrl)
             self.iconImage.load(url: iconUrl)
             self.lblTimezone.text = timeZone
-            self.lblTemp.text = String(round(lblTemp)) + "℃"
-            self.lblLastestUpdateTime.text = "최근 업데이트 시각: \(self.getNowTime())"
-        }
-    }
-
-    func getNowTime() -> String {
-        let now = Date()
-
-        let date = DateFormatter()
-        date.locale = Locale(identifier: "ko_kr")
-        date.timeZone = TimeZone(abbreviation: "KST") // "2018-03-21 18:07:27"
-        date.dateFormat = "HH:mm:ss"
-
-        return date.string(from: now)
-    }
-}
-
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
+            self.lblTemp.text = String(format: "%.1f", (temp)) + "℃"
+            self.lblLastestUpdateTime.text = "최근 업데이트 시각: \(getNowTime())"
         }
     }
 }
 
 #if DEBUG
     import SwiftUI
+    import WidgetKit
     struct ViewControllerRepresentable: UIViewControllerRepresentable {
         func updateUIViewController(_: UIViewController, context _: Context) {
             // leave this empty
