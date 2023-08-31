@@ -39,8 +39,8 @@ struct WeatherEntryView: View {
                     Spacer()
                     VStack(alignment: .center) {
                         Spacer()
-                        Image(uiImage: (UIImage(systemName: "plus.circle")!))
-                            .aspectRatio(contentMode: .fit)
+                        Image(uiImage: UIImage(systemName: "plus.circle")!)
+                            .widgetURL(URL(string: "addWiget"))
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
@@ -50,8 +50,8 @@ struct WeatherEntryView: View {
                     Spacer()
                     VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                         Spacer()
-                        Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
-                            .aspectRatio(contentMode: .fit)
+                        Image(uiImage: UIImage(systemName: "plus.circle")!)
+                            .widgetURL(URL(string: "addWiget"))
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
@@ -61,8 +61,8 @@ struct WeatherEntryView: View {
                     Spacer()
                     VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                         Spacer()
-                        Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
-                            .aspectRatio(contentMode: .fit)
+                        Image(uiImage: UIImage(systemName: "plus.circle")!)
+                            .widgetURL(URL(string: "addWiget"))
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)

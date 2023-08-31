@@ -23,6 +23,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
     }
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        let addWigetURL: String = "addWiget"
+
+        guard let url = URLContexts.first?.url,
+              let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
+
+        print("url: \(url)")
+        print("addWigetURL: \(addWigetURL)")
+        
+        if addWigetURL == urlComponents.path {
+
+            print("addWigetURL: \(addWigetURL)")
+            guard let registerWidgetViewController = UIStoryboard(name: "RegisterWidgetViewController", bundle: nil).instantiateViewController(withIdentifier: "RegisterWidgetViewController") as? RegisterWidgetViewController else { return }
+
+            registerWidgetViewController.modalPresentationStyle = .overFullScreen
+            window?.rootViewController?.present(registerWidgetViewController, animated: true, completion: nil)
+        }
+
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
