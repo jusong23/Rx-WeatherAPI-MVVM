@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import WidgetKit
 
-struct ToggleStateIntent: AppIntent {
+struct RefereshIntent: AppIntent {
     static var title: LocalizedStringResource = "Toggle Task State"
     
     func perform() async throws -> some IntentResult {
@@ -55,6 +55,7 @@ class IntentWeatherService {
                         var timezone = openWeather.timezone
                         var temp = openWeather.current.temp!
                         var updateTime = getNowTime()
+                        UserDefaults.standard.set(iconCode, forKey: "initialCode")
                         
                         WidgetData.write(iconCode, timezone, temp, updateTime)
                         WidgetCenter.shared.reloadAllTimelines()

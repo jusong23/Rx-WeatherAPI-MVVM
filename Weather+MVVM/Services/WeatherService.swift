@@ -41,6 +41,15 @@ class WeatherService: WeatherServiceProtocol {
                     let decoder = JSONDecoder()
                     let response = try decoder.decode(OpenWeather.self, from: data)
                                         
+                    var iconCode = response.current.weather[0].icon
+                    var timezone = response.timezone
+                    var temp = response.current.temp!
+                    var updateTime = getNowTime()
+                    UserDefaults.standard.set(iconCode, forKey: "initialCode")
+                    
+                    WidgetData.write(iconCode, timezone, temp, updateTime)
+                    WidgetCenter.shared.reloadAllTimelines()
+                    
                     emitter.onNext(response)
                     emitter.onCompleted()
                 } catch {

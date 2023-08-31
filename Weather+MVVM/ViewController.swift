@@ -105,7 +105,9 @@ class ViewController: UIViewController {
     //MARK: - Helpers
     @objc func tapAddWidgetPage() {
         print(#function)
-        let registerWidgetViewController = RegisterWidgetViewController()
+        guard let registerWidgetViewController = UIStoryboard(name: "RegisterWidgetViewController", bundle: nil).instantiateViewController(withIdentifier: "RegisterWidgetViewController") as? RegisterWidgetViewController else { return }
+
+//        let registerWidgetViewController = RegisterWidgetViewController()
         self.navigationController?.pushViewController(registerWidgetViewController, animated: true)
     }
 

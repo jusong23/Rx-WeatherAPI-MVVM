@@ -21,15 +21,18 @@ struct WeatherEntryView: View {
                         .foregroundColor(Color.gray)
 
                     Spacer()
-                    Button(intent: ToggleStateIntent()) {
+                    Button(intent: RefereshIntent()) {
                         Image(systemName: "arrow.clockwise")
                     }
+                    .buttonStyle(.plain)
                 }
                 HStack {
                     VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                         Spacer()
-                        Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
-                            .aspectRatio(contentMode: .fit)
+                        Button(intent: ImageIntent()) {
+                            Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
+                        }
+                        .buttonStyle(.plain)
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
