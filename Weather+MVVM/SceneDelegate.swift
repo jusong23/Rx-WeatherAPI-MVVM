@@ -11,14 +11,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         self.window = UIWindow(windowScene: windowScene)
-        
-        let viewController = ViewController(viewModel: RootViewModel(weatherService: WeatherService()))
+
+        let viewController = ViewController(loadType: 0, viewModel: RootViewModel(weatherService: WeatherService()))
         let navigationController = UINavigationController(rootViewController: viewController)
-        
+
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
     }
@@ -27,22 +26,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let addWigetURL: String = "addWiget"
 
         guard let url = URLContexts.first?.url,
-              let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
+            let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
 
         print("url: \(url)")
         print("addWigetURL: \(addWigetURL)")
-        
+
         if addWigetURL == urlComponents.path {
 
             print("addWigetURL: \(addWigetURL)")
             guard let registerWidgetViewController = UIStoryboard(name: "RegisterWidgetViewController", bundle: nil).instantiateViewController(withIdentifier: "RegisterWidgetViewController") as? RegisterWidgetViewController else { return }
 
-            registerWidgetViewController.modalPresentationStyle = .overFullScreen
-            window?.rootViewController?.present(registerWidgetViewController, animated: true, completion: nil)
+//            registerWidgetViewController.modalPresentationStyle = .overFullScreen
+//            let viewController = ViewController(loadType: 1, viewModel: RootViewModel(weatherService: WeatherService()))
+            
+            
+            let navigationController = UINavigationController(rootViewController: registerWidgetViewController)
+            navigationController.modalPresentationStyle = .overFullScreen
+
+            window?.rootViewController?.present(navigationController, animated: true, completion: nil)
         }
 
     }
-    
+
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

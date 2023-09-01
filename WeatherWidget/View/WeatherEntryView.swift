@@ -24,7 +24,11 @@ struct WeatherEntryView: View {
                     Button(intent: RefereshIntent()) {
                         Image(systemName: "arrow.clockwise")
                     }
-                    .buttonStyle(.plain)
+                        .buttonStyle(.plain)
+                    if (entry.widgetData.iconCode == "dd") {
+                    }
+                    else {
+                    }
                 }
                 HStack {
                     VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {

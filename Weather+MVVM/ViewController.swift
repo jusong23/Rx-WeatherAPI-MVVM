@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     //MARK: - Propeties
     let safeArea = UIView()
     let disposeBag = DisposeBag()
+    let loadType: Int
     let viewModel: RootViewModel
 
     let iconImage: UIImageView = {
@@ -34,9 +35,22 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setUpNavigationBar()
+        loadCheck()
     }
 
-    init(viewModel: RootViewModel) {
+    func loadCheck() {
+        if loadType == 1 {
+            print("위젯을 통한 앱 진입")
+            DispatchQueue.main.async {
+                guard let registerWidgetViewController = UIStoryboard(name: "RegisterWidgetViewController", bundle: nil).instantiateViewController(withIdentifier: "RegisterWidgetViewController") as? RegisterWidgetViewController else { return }
+
+                self.navigationController?.pushViewController(registerWidgetViewController, animated: true)
+            }
+        }
+    }
+
+    init(loadType: Int, viewModel: RootViewModel) {
+        self.loadType = loadType
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -153,7 +167,7 @@ class ViewController: UIViewController {
 
         @available(iOS 13.0.0, *)
         func makeUIViewController(context _: Context) -> UIViewController {
-            ViewController(viewModel: RootViewModel(weatherService: WeatherService()))
+            ViewController(loadType: 0, viewModel: RootViewModel(weatherService: WeatherService()))
         }
     }
 
