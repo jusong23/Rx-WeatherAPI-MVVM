@@ -31,10 +31,10 @@ class ButtonImageTap {
         print("imageStringBeforeUpdate: \(imageStringBeforeUpdate)")
         
         if entries[0].widgetData.iconCode != "50n" {
-            print("debug 1")
+            print("On")
             WidgetData.write(updatedImageString, entries[0].widgetData.timezone, entries[0].widgetData.temp, entries[0].widgetData.updateTime)
         } else {
-            print("debug 2")
+            print("Off")
             WidgetData.write(imageStringBeforeUpdate, entries[0].widgetData.timezone, entries[0].widgetData.temp, entries[0].widgetData.updateTime)
         }
         

@@ -12,14 +12,16 @@ struct WeatherEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-
         ZStack {
             VStack {
-                HStack {
-                    Text("최근 업데이트: \(entry.widgetData.updateTime)")
+                HStack(alignment: .center) {
+                    Text("EGLOO")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+//                        .foregroundColor(Color.blue)
+                    Text("\(entry.widgetData.updateTime)")
                         .font(.caption)
                         .foregroundColor(Color.gray)
-
                     Spacer()
                     Button(intent: RefereshIntent()) {
                         Image(systemName: "arrow.clockwise")
@@ -35,8 +37,9 @@ struct WeatherEntryView: View {
                         Spacer()
                         Button(intent: ImageIntent()) {
                             Image(uiImage: (UIImage(named: entry.widgetData.iconCode) ?? UIImage(systemName: "plus.circle"))!)
+                                .aspectRatio(contentMode: .fill)
                         }
-                        .buttonStyle(.plain)
+                            .buttonStyle(.plain)
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
@@ -48,6 +51,7 @@ struct WeatherEntryView: View {
                         Spacer()
                         Image(uiImage: UIImage(systemName: "plus.circle")!)
                             .widgetURL(URL(string: "addWiget"))
+                            .aspectRatio(contentMode: .fill)
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
@@ -59,6 +63,7 @@ struct WeatherEntryView: View {
                         Spacer()
                         Image(uiImage: UIImage(systemName: "plus.circle")!)
                             .widgetURL(URL(string: "addWiget"))
+                            .aspectRatio(contentMode: .fill)
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
@@ -70,6 +75,7 @@ struct WeatherEntryView: View {
                         Spacer()
                         Image(uiImage: UIImage(systemName: "plus.circle")!)
                             .widgetURL(URL(string: "addWiget"))
+                            .aspectRatio(contentMode: .fill)
                         Spacer()
                         Text(entry.widgetData.timezone)
                             .font(.caption)
@@ -77,7 +83,15 @@ struct WeatherEntryView: View {
                             .font(.caption2)
                     }
                 }
-
+//                Spacer()
+//                VStack(alignment: .leading) {
+//                    HStack(alignment: .bottom) {
+//                        Spacer()
+//                        Text("최근 업데이트: \(entry.widgetData.updateTime)")
+//                            .font(.caption)
+//                            .foregroundColor(Color.gray)
+//                    }
+//                }
             }
         }
     }

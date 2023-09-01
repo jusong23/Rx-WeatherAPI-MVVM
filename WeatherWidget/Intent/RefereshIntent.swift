@@ -15,13 +15,14 @@ struct RefereshIntent: AppIntent {
     static var title: LocalizedStringResource = "Toggle Task State"
     
     func perform() async throws -> some IntentResult {
-        IntentWeatherService.apiCall()
+        print("RefereshIntent")
+        try await IntentWeatherService.apiCall()
         return .result()
     }
 }
 
 class IntentWeatherService {
-    static func apiCall() {
+    static func apiCall() async throws {
         let urlStr = "https://api.openweathermap.org/data/2.5/onecall?lat=37.54920197&lon=126.92320251&exclude=hourly&appid=70712209ed38b3c9995cdcdd87bda250&units=metric"
 
                 guard let url = URL(string: urlStr) else {
@@ -57,11 +58,12 @@ class IntentWeatherService {
                         var updateTime = getNowTime()
                         UserDefaults.standard.set(iconCode, forKey: "initialCode")
                         
+                        print("apiCall")
                         WidgetData.write(iconCode, timezone, temp, updateTime)
                         WidgetCenter.shared.reloadAllTimelines()
                         
-
                     } catch {
+                        print("apiCall error")
                         print(error.localizedDescription)
                     }
                 }
